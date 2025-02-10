@@ -30,12 +30,12 @@ const Signup =() =>{
     let isValid = true;
 
     if (!formData.name) {
-      newErrors.name = "Name is required";
+      newErrors.name = "Your Full name";
       isValid = false;
     }
 
     if (!formData.email) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Enter a valid email to recieve updates";
       isValid = false;
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = "Email is invalid";
@@ -57,7 +57,7 @@ const Signup =() =>{
     }
 
     if (!formData.role) {
-      newErrors.role = "Role is required";
+      newErrors.role = "Enteer your Role";
       isValid = false;
     }
 
