@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const Signup =() =>{
+    const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -69,11 +70,12 @@ const Signup =() =>{
     e.preventDefault();
     if (validate()) {
       localStorage.setItem("userData", JSON.stringify(formData));
-      alert("Registration successful!");
+      setMessage("Registration successful!");
       setFormData({ name: '',email: '', password: '',referral_code: '', role: '' });
     }
   }
   
+
   return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center text-green-800">Create Your Account</h2>
@@ -150,7 +152,19 @@ const Signup =() =>{
         <span>Already have an account? </span>
         <a href="/" className="text-blue-500 hover:underline">Login</a>
       </div>
-    </div>
+
+    {message && (
+        <div
+          style={{
+            marginTop: '20px',
+            color: message.startsWith('Login successful') ? 'red' : 'green',
+          }}
+        >
+          {message}
+        </div>
+
+      )}
+          </div>
   );
 
 };
