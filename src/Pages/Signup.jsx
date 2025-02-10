@@ -1,111 +1,148 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 
-const Signup = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [errors, setErrors] = useState({})
+const Signup =() =>{
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    referral_code: "",
+    role: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+    referral_code: "",
+    role: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const validate = () => {
-    const errors = {}
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    let newErrors = {};
+    let isValid = true;
 
-    if (!email) {
-      errors.email = 'Email is required'
-    } else if (!emailPattern.test(email)) {
-      errors.email = 'Please enter a valid email'
+    if (!formData.name) {
+      newErrors.name = "Name is required";
+      isValid = false;
     }
 
-    if (!password) {
-      errors.password = 'Password is required'
-    } else if (password.length < 6) {
-      errors.password = 'Password must be at least 6 characters'
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Email is invalid";
+      isValid = false;
     }
 
-    if (password !== confirmPassword) {
-      errors.confirmPassword = 'Passwords do not match'
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+      isValid = false;
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters";
+      isValid = false;
     }
 
-    setErrors(errors)
-    return Object.keys(errors).length === 0
-  }
+    if (!formData.referral_code) {
+      newErrors.referral_code = "Please enter referral_code";
+      isValid = false;
+    
+    }
 
-  const handleRegister = (e) => {
-    e.preventDefault()
+    if (!formData.role) {
+      newErrors.role = "Role is required";
+      isValid = false;
+    }
 
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     if (validate()) {
-      console.log({ email, password })
-      // Handle register logic here
+      localStorage.setItem("userData", JSON.stringify(formData));
+      alert("Registration successful!");
+      setFormData({ name: '',email: '', password: '',referral_code: '', role: '' });
     }
   }
-
+  
   return (
-    <body className='bg-green-100'>
     <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center text-green-800">Create Your Account</h2>
-      <form onSubmit={handleRegister}>
+      <form onSubmit={handleSubmit}>
       <div className="mb-4">
           <label className="block text-sm font-medium text-green-800" htmlFor="email">Name</label>
           <input
-            type="name"
+            type="text"
             id="name"
-            // value={email}
-            // onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter your name"
-            required
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
         </div>
+
         <div className="mb-4">
-          <label className="block text-sm font-medium text-green-800" htmlFor="email">Email</label>
+        <label className="block text-sm font-medium text-green-800" htmlFor="email">Email</label>
           <input
             type="email"
             id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter your email"
-            required
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
-          {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-
+          {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
         </div>
+
         <div className="mb-4">
-          <label className="block text-sm font-medium text-green-800" htmlFor="password">Password</label>
+        <label className="block text-sm font-medium text-green-800" htmlFor="password">Password</label>
           <input
             type="password"
             id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter your password"
-            required
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
         </div>
+
         <div className="mb-6">
-          <label className="block text-sm font-medium text-green-800" htmlFor="referral_code">referral_code</label>
+        <label className="block text-sm font-medium text-green-800" htmlFor="referral_code">referral_code</label>
           <input
-            type="referral_code"
+            type="code"
             id="referral_code"
-            // value={confirmPassword}
-            // onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter referral_code"
-            required
+            name="referral_code"
+            value={formData.referral_code}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+          {errors.referral_code && <p className="text-sm text-red-500">{errors.referral_code}</p>}
         </div>
+
         <div className="mb-6">
           <label className="block text-sm font-medium text-green-800" htmlFor="role">Role</label>
           <input
-            type="role"
             id="role"
-            // value={confirmPassword}
-            // onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 mt-1 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            placeholder="Enter your Role"
-            required
-          />
+            name="role"
+            value={formData.role}
+            onChange={handleChange}
+            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+          </input>
+          {errors.role && <p className="text-sm text-red-500">{errors.role}</p>}
         </div>
-        <button type="submit" className="w-full py-2 bg-green-900 text-white rounded-md hover:bg-green-600 ">
+      <button type="submit" className="w-full py-2 bg-green-900 text-white rounded-md hover:bg-green-600 ">
           Sign Up
         </button>
       </form>
@@ -114,8 +151,8 @@ const Signup = () => {
         <a href="/" className="text-blue-500 hover:underline">Login</a>
       </div>
     </div>
-    </body>
-  )
-}
+  );
 
-export default Signup
+};
+
+export default Signup;
