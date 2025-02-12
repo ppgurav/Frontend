@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { axiosInstance } from "../utils/axiosInstance";
 
 export default function Signup() {
   const [successMsg, setSuccessMsg] = useState("");
@@ -8,14 +9,30 @@ export default function Signup() {
     register,
     handleSubmit,
     formState: { errors },
-    reset
     
   } = useForm();
 
+
+  //save
+    const SignUpUser = async (data) => {
+        console.log("s", data);
+        
+      const response  = await axiosInstance.post("/auth/signup", data )
+        
+    }
+
   const onSubmit = (data) => {
-    console.log(data);
+    //console.log(data);
+
+    try {
+      SignUpUser(data)
+    } catch (error) {
+      console.log("catch: ", error);
+      
+    }
+
+
     setSuccessMsg("User registration is successful.");
-    reset();
   };
 
   return (
@@ -89,6 +106,7 @@ export default function Signup() {
         <label className="block text-sm font-medium text-green-800" htmlFor="referral_code">referral_code</label>
           <input
             type="text"
+            placeholder="uthx1d3m"
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             {...register("referral_code", {
               required: "referral_code."
@@ -97,7 +115,7 @@ export default function Signup() {
           {errors.referral_code && (
             <p className="errorMsg">{errors.referral_code.message}</p>
           )}
-        </div>
+        </div> 
         <div className="mb-6">
         <label className="block text-sm font-medium text-green-800" htmlFor="role">Role</label>
           <input
