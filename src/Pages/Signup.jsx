@@ -1,150 +1,117 @@
+
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 
-const Signup =() =>{
-    const [message, setMessage] = useState('');
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    referral_code: "",
-    role: "",
-  });
-
-  const [errors, setErrors] = useState({
-    name: "",
-    email: "",
-    password: "",
-    referral_code: "",
-    role: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const validate = () => {
-    let newErrors = {};
-    let isValid = true;
-
-    if (!formData.name) {
-      newErrors.name = "Your Full name";
-      isValid = false;
-    }
-
-    if (!formData.email) {
-      newErrors.email = "Enter a valid email to recieve updates";
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Email is invalid";
-      isValid = false;
-    }
-
-    if (!formData.password) {
-      newErrors.password = "Your password must be strong and secure";
-      isValid = false;
-    } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
-      isValid = false;
-    }
-
-    if (!formData.referral_code) {
-      newErrors.referral_code = "Please enter referral_code";
-      isValid = false;
+export default function Signup() {
+  const [successMsg, setSuccessMsg] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
     
-    }
+  } = useForm();
 
-    if (!formData.role) {
-      newErrors.role = "Enteer your Role";
-      isValid = false;
-    }
-
-    setErrors(newErrors);
-    return isValid;
+  const onSubmit = (data) => {
+    console.log(data);
+    setSuccessMsg("User registration is successful.");
+    reset();
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validate()) {
-      localStorage.setItem("userData", JSON.stringify(formData));
-      setMessage("Registration successful!");
-      setFormData({ name: '',email: '', password: '',referral_code: '', role: '' });
-    }
-  }
-  
 
   return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-bold mb-6 text-center text-green-800">Create Your Account</h2>
-      <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-          <label className="block text-sm font-medium text-green-800" htmlFor="email">Name</label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {successMsg && <p className="success-msg" style={{
+      marginTop: '20px',
+      color: successMsg.startsWith('Login successful') ? 'red' : 'green',
+    }}>{successMsg}</p>}
+        <div className="mb-4">
+        <label className="block text-sm font-medium text-green-800" htmlFor="name">Name</label>
           <input
             type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register("name", {
+              required: "name is required."
+            })}
           />
-          {errors.name && <p className="text-sm text-red-500">{errors.name}</p>}
+          {errors.name && (
+            <p className="errorMsg">{errors.name.message}</p>
+          )}
         </div>
-
         <div className="mb-4">
         <label className="block text-sm font-medium text-green-800" htmlFor="email">Email</label>
           <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            type="text"
+             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register("email", {
+              required: "Email is required.",
+              pattern: {
+                value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+                message: "Email is not valid."
+              }
+            })}
           />
-          {errors.email && <p className="text-sm text-red-500">{errors.email}</p>}
+          {errors.email && <p className="errorMsg">{errors.email.message}</p>}
         </div>
-
         <div className="mb-4">
         <label className="block text-sm font-medium text-green-800" htmlFor="password">Password</label>
           <input
             type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register("password", {
+              required: true,
+              validate: {
+                checkLength: (value) => value.length >= 6,
+                matchPattern: (value) =>
+                  /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
+                    value
+                  )
+              }
+            })}
           />
-          {errors.password && <p className="text-sm text-red-500">{errors.password}</p>}
+          {errors.password?.type === "required" && (
+            <p className="errorMsg">Password is required.</p>
+          )}
+          {errors.password?.type === "checkLength" && (
+            <p className="errorMsg">
+              Password should be at-least 6 characters.
+            </p>
+          )}
+          {errors.password?.type === "matchPattern" && (
+            <p className="errorMsg">
+              Password should contain at least one uppercase letter, lowercase
+              letter, digit, and special symbol.
+            </p>
+          )}
         </div>
-
         <div className="mb-6">
         <label className="block text-sm font-medium text-green-800" htmlFor="referral_code">referral_code</label>
           <input
-            type="code"
-            id="referral_code"
-            name="referral_code"
-            value={formData.referral_code}
-            onChange={handleChange}
+            type="text"
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register("referral_code", {
+              required: "referral_code is required."
+            })}
           />
-          {errors.referral_code && <p className="text-sm text-red-500">{errors.referral_code}</p>}
+          {errors.referral_code && (
+            <p className="errorMsg">{errors.referral_code.message}</p>
+          )}
         </div>
-
         <div className="mb-6">
-          <label className="block text-sm font-medium text-green-800" htmlFor="role">Role</label>
+        <label className="block text-sm font-medium text-green-800" htmlFor="role">Role</label>
           <input
-            id="role"
-            name="role"
-            value={formData.role}
-            onChange={handleChange}
-            className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          >
-          </input>
-          {errors.role && <p className="text-sm text-red-500">{errors.role}</p>}
+            type="text"
+             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            {...register("role", {
+              required: "Role is required."
+            })}
+          />
+          {errors.role && (
+            <p className="errorMsg">{errors.role.message}</p>
+          )}
         </div>
-      <button type="submit" className="w-full py-2 bg-green-900 text-white rounded-md hover:bg-green-600 ">
+        <button type="submit" className="w-full py-2 bg-green-900 text-white rounded-md hover:bg-green-600 ">
           Sign Up
         </button>
       </form>
@@ -152,21 +119,6 @@ const Signup =() =>{
         <span>Already have an account? </span>
         <a href="/" className="text-blue-500 hover:underline">Login</a>
       </div>
-
-    {message && (
-        <div
-          style={{
-            marginTop: '20px',
-            color: message.startsWith('Login successful') ? 'red' : 'green',
-          }}
-        >
-          {message}
-        </div>
-
-      )}
-          </div>
+    </div>
   );
-
-};
-
-export default Signup;
+}
