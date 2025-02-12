@@ -1,21 +1,54 @@
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
+import { axiosInstance } from '../utils/axiosInstance';
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
     const [successMsg, setSuccessMsg] = useState("");
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors },
-        reset
       } = useForm();
     
+
+const LoginUser = async (data) => {
+  console.log("s",data);
+
+  const response = await axiosInstance.post("/auth/login",data)
+  axiosInstance.get( '/user/call-logs')
+        .then(response => {
+            console.log(response.data);
+            if(response.data === "Success"){
+                console.log("Login Success");
+                setSuccessMsg('Login successful!')
+            }
+            else{
+                setSuccessMsg('Incorrect password! Please try again.');
+            }
+        })
+        .catch(err => console.log(err));
+    }
+
+
+
       const onSubmit = (data) => {
-        console.log(data);
-        setSuccessMsg("Login Successful");
-        reset();
+        // console.log(response.data);
+        try {
+          LoginUser(data)
+          navigate('/dashboard');
+          
+        } catch (error) {
+          console.log("catch: ", error);
+          
+        }
+        // setSuccessMsg("Login Successful");
+
       };
     
       console.log(errors);
+      
     
       return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
@@ -79,6 +112,7 @@ const Login = () => {
         </div>
       );
 }
+
 
 export default Login
 
