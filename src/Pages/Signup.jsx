@@ -32,7 +32,7 @@ export default function Signup() {
             type="text"
              className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             {...register("name", {
-              required: "name is required."
+              required: "Your full name."
             })}
           />
           {errors.name && (
@@ -45,7 +45,7 @@ export default function Signup() {
             type="text"
              className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             {...register("email", {
-              required: "Email is required.",
+              required: "Enter a valid email to receive updates.",
               pattern: {
                 value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
                 message: "Email is not valid."
@@ -71,7 +71,7 @@ export default function Signup() {
             })}
           />
           {errors.password?.type === "required" && (
-            <p className="errorMsg">Password is required.</p>
+            <p className="errorMsg">Your password must be strong and secure.</p>
           )}
           {errors.password?.type === "checkLength" && (
             <p className="errorMsg">
@@ -91,7 +91,7 @@ export default function Signup() {
             type="text"
             className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             {...register("referral_code", {
-              required: "referral_code is required."
+              required: "referral_code."
             })}
           />
           {errors.referral_code && (
@@ -104,7 +104,7 @@ export default function Signup() {
             type="text"
              className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             {...register("role", {
-              required: "Role is required."
+              required: "Enter your Role."
             })}
           />
           {errors.role && (
