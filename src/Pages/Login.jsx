@@ -17,38 +17,28 @@ const LoginUser = async (data) => {
   console.log("s",data);
 
   const response = await axiosInstance.post("/auth/login",data)
-  axiosInstance.get( '/user/call-logs')
-        .then(response => {
-            console.log(response.data);
-            if(response.data === "Success"){
-                console.log("Login Success");
-                setSuccessMsg('Login successful!')
-            }
-            else{
-                setSuccessMsg('Incorrect password! Please try again.');
-            }
-        })
-        .catch(err => console.log(err));
-    }
+  console.log(response,"response ")
 
-
-
+  if(response.status === 200){
+    navigate("/dashboard")
+  }else{
+    setSuccessMsg("Invalid credentaisl");
+  }
+}
       const onSubmit = (data) => {
         // console.log(response.data);
         try {
           LoginUser(data)
-          navigate('/dashboard');
           
         } catch (error) {
-          console.log("catch: ", error);
-          
+        
+          setSuccessMsg("Invalid credentaisl");
         }
         // setSuccessMsg("Login Successful");
 
       };
     
-      console.log(errors);
-      
+    
     
       return (
     <div className="max-w-md mx-auto mt-10 p-8 bg-white rounded-lg shadow-md">
@@ -115,4 +105,3 @@ const LoginUser = async (data) => {
 
 
 export default Login
-
