@@ -74,10 +74,10 @@ const LoginUser = async (data) => {
                   required: true,
                   validate: {
                     checkLength: (value) => value.length >= 6,
-                    matchPattern: (value) =>
-                      /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
-                        value
-                      )
+                    // matchPattern: (value) =>
+                    //   /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$*])/.test(
+                    //     value
+                    //   )
                   }
                 })}
               />
