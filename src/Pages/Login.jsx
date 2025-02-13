@@ -32,9 +32,9 @@ const LoginUser = async (data) => {
           
         } catch (error) {
         
-          setSuccessMsg("Invalid credentaisl");
+          console.log("catch: ", error);
         }
-        // setSuccessMsg("Login Successful");
+        setSuccessMsg("Invalide email and password");
 
       };
     
@@ -46,7 +46,7 @@ const LoginUser = async (data) => {
           <form onSubmit={handleSubmit(onSubmit)}>
           {successMsg && <p className="success-msg" style={{
       marginTop: '20px',
-      color: successMsg.startsWith('Login successful') ? 'red' : 'green',
+      color: successMsg.startsWith('Login successful') ? 'green' : 'red',
     }}>{successMsg}</p>}
           <div className="mb-4">
           <label className="block text-sm font-medium text-blue-600" htmlFor="email">Email</label>
