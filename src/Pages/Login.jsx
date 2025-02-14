@@ -34,7 +34,7 @@ const LoginUser = async (data) => {
         
           console.log("catch: ", error);
         }
-        setSuccessMsg("Invalide email and password");
+        // setSuccessMsg("Invalide email and password");
 
       };
     
