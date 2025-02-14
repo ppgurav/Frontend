@@ -3,49 +3,27 @@ import { axiosInstance } from '../utils/axiosInstance';
 
 const Dashboard = () => {
 
-const [data, setData] = useState("")
 
-useEffect(() => {
-  async function fetchData(){
-    const res = axiosInstance.get('campaign/campaigns')
-    if(res.status === 200){
-      setData(res.data.data)
-    }
-  } 
-  fetchData()
-}, [])
+const [data, setData] = useState([]);
 
-  const [campaigns, setCampaigns] = useState([
-    {
-      __id: "6798ae20b712dca3f6b37279", 
-      compaignCreatorName : "Pratik Jadhav",
-      compaignCreatorRole: "user",
-      compaignStatus: "pending",
-      compaignName: "Campaign 1",
-      compaignStartDate : "2025-01-28T12:00:00.000Z"
-},
-    {_id: "6798ae20b712dca3f6b37279", 
-      compaignCreatorName : "Pratik Jadhav",
-      compaignCreatorRole: "user",
-      compaignStatus: "pending",
-      compaignName: "Campaign 2",
-      compaignStartDate : "2024-12-31T10:26:00.000Z"
-    },
-    {
-      __id: "6798ae20b712dca3f6b37279",
-      compaignCreatorName : "Pratik Jadhav",
-      compaignCreatorRole: "user",
-      compaignStatus: "pending",
-      compaignName: "Campaign Name 3",
-      compaignStartDate : "2025-01-07T11:26:00.000Z"
-    } 
-  ]);
+  useEffect(() => {
+    axiosInstance.get('campaign/campaigns')
+      .then((res) => {
+        if (res.status === 200) {
+          setData(res.data.data || []);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setData([]);
+      });
+  }, []);
 
 
   return (
-    <div className="p-7 ">
+<div className="p-7 ">
       <div className="grid grid-cols-1 sm:grid-cols- lg:grid-cols-3 gap-4  ">
-        {campaigns.map((campaign) => (
+        {data.map((campaign) => (
           <div key={campaign._id} className="bg-white shadow-lg p-9 rounded-lg border  border-2 border-2  bg-cyan-500 shadow-lg shadow-cyan-500/50 ...">
             <h3 className="flex flex-wrap text-sm font-medium text-center text-Black-500 border-b border-gray-950 rounded-t-lg bg-gray-200 dark:border-gray-800 dark:text-gray-50 dark:bg-gray-700">{campaign.compaignName}</h3>
             <p className="text-black-500 dark:text-gray-400 mt-2 text-sm italic md:italic ... ">
