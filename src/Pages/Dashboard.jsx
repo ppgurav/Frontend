@@ -48,13 +48,13 @@ useEffect(() => {
         {campaigns.map((campaign) => (
           <div key={campaign._id} className="bg-white shadow-lg p-9 rounded-lg border  border-2 border-2  bg-cyan-500 shadow-lg shadow-cyan-500/50 ...">
             <h3 className="flex flex-wrap text-sm font-medium text-center text-Black-500 border-b border-gray-950 rounded-t-lg bg-gray-200 dark:border-gray-800 dark:text-gray-50 dark:bg-gray-700">{campaign.compaignName}</h3>
-            <p class="text-black-500 dark:text-gray-400 mt-2 text-sm italic md:italic ... ">
+            <p className="text-black-500 dark:text-gray-400 mt-2 text-sm italic md:italic ... ">
               <strong>compaignCreatorName: </strong>{campaign.compaignCreatorName}
             </p>
-            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm italic md:italic ...">
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm italic md:italic ...">
               <strong> compaignCreatorRole: </strong> {campaign.compaignCreatorRole}
             </p>
-            <p class="text-gray-500 dark:text-gray-400 mt-2 text-sm italic md:italic ...">
+            <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm italic md:italic ...">
               <strong>Status:</strong>{" "}
               <span
                 className={`px-2 py-1 rounded ${
