@@ -1,42 +1,74 @@
-import React from 'react'
-import Navigationbar from './Navigationbar';
+import React, { useEffect, useState } from 'react'
+import { Pencil } from 'lucide-react';
+import { Trash } from 'lucide-react';
+import { axiosInstance } from '../utils/axiosInstance';
+import EditModal from '../Pages/EditModal';
 
-const UserCard = ({ user, }) => {
-      console.log(user);
-    //   destructuring
+const UserCard = ({ user}) => {
+    //  console.log(user);
+
+    // destructing
 const {
-    compaignCreatorName
-    ,compaignCreatorRolename,compaignName} = user //{id:"",name:""}
-     
+    _id
+    ,name,email,role} = user //{id:"",name:""}
+
+        const [selectedUser, setSelectedUser] = useState(null);
+        const [isModalOpen, setIsModalOpen] = useState(false);
+
+
+           const [data, setUser] = useState([]);
+             useEffect(() => { 
+               axiosInstance.get("/admin-and-reseller/users")
+                 .then((res) => {
+                   if (res.status === 200) {
+                     console.log("users", data);
+                     setUser(res.data.data || []);
+                   }
+                 })
+                 .catch((error) => {
+                   console.error("Error fetching data:", error);
+                   setUser([]);
+                 });
+           
+             }, []);
+
+
+            const handleEdit = (user) => {
+              setSelectedUser(user);
+              setIsModalOpen(true);
+          };
+
+
+  
    return(
     <>
-    <Navigationbar />
-    <div className="space-y-4">
-        <div className="p-4 bg-white rounded-lg flex items-center space-x-4">
-      {/* <img
-        src={avatar}
-        alt={`${fullname}'s avatar`}
-        className="w-16 h-16 rounded-full object-cover"
-      /> */}
-      <div>
-        <img src={`https://ui-avatars.com/api/?name=${compaignCreatorName}`} style={{borderRadius:"50%"}}/>
-        {/* <h2 className="text-xl font-semibold">{id}</h2> */}
-         <h2 className="text-xl font-semibold">{compaignCreatorName}</h2>
-        <p className="text-gray-500">{compaignCreatorRolename}</p>
-        <p className="text-gray-400">{compaignName}</p> 
-        {/* <div className="mt-2">
-          {skills?.map((skill, index) => (
-            <span
-              key={index}
-              className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-2"
-            >
-              {skill}
-            </span>
-          ))}
-        </div> */}
-      </div>
-    </div>
-  </div> 
+            <tr>
+              <td className="px-4 py-2 border">{_id}</td>
+              <td className="px-4 py-2 border">{name}</td>
+              <td className="px-4 py-2 border">{email}</td>
+              <td className="px-4 py-2 border">{role}</td>
+              <td className="p-2 flex  border-gray-200 border-1 ">
+
+                {data.map((user) => (
+                    <div key={user._id}>
+                    </div>
+                ))}
+                <Pencil className="text-blue-500 cursor-pointer" onClick={() => handleEdit(user)} />
+               <EditModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                user={selectedUser}
+               />
+
+              <Trash
+              size={23}
+               className='ml-10'/>
+              </td>
+            </tr>
+
+        
+      
+    
   </>
   )
 }
