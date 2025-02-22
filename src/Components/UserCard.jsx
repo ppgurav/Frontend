@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Pencil } from 'lucide-react';
+import { KeyRound, Pencil } from 'lucide-react';
 import { Trash } from 'lucide-react';
 import { axiosInstance } from '../utils/axiosInstance';
 import EditModal from '../Pages/EditModal';
@@ -48,21 +48,22 @@ const {
               <td className="px-4 py-2 border">{email}</td>
               <td className="px-4 py-2 border">{role}</td>
               <td className="p-2 flex  border-gray-200 border-1 ">
-
+              <Pencil />
                 {data.map((user) => (
                     <div key={user._id}>
                     </div>
                 ))}
-                <Pencil className="text-blue-500 cursor-pointer" onClick={() => handleEdit(user)} />
+
+              <KeyRound 
+              className="text-orange-300 cursor-pointer ml-8" onClick={() => handleEdit(user)}
+              size={23}  />
+
                <EditModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 user={selectedUser}
                />
 
-              <Trash
-              size={23}
-               className='ml-10'/>
               </td>
             </tr>
 
