@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { X } from 'lucide-react';
-import { useParams } from 'react-router-dom';
+
 
 const EditModal = ({ isOpen, onClose, user}) => {
     if (!isOpen || !user) return null;
@@ -11,17 +11,17 @@ const EditModal = ({ isOpen, onClose, user}) => {
     return (
 
 
-        <div className="fixed inset-0 bg-transparent bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-transparent flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-                <button className="absolute top-2 right-2 text-gray-500" onClick={onClose}>
+                <button className="absolute top-2 right-2 text-red-500" onClick={onClose}>
                     <X />
                 </button>
                 <h1 className="text-xl font-bold mb-4">Update Password</h1>
-                <p className="mb-4">
-                    <strong>User ID:</strong> <span className="text-gray-700">{user._id}</span>
+                <p className="mb-0">
+                    <strong className='font-light'>User ID:</strong> <span className="text-gray-700 font-medium" >{user._id}</span>
                 </p>
                 <div className="mb-4">
-                <label className=" text-gray-700">New Password</label>
+                <h1 className=" text-gray-700 font-bold ">New Password</h1>
                  <input
                      type="password"
                      name="newPassword"
