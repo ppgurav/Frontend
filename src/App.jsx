@@ -9,7 +9,8 @@ import UserCard from './Components/UserCard';
 import Profilepage from './Pages/Profilepage';
 import UpdatePassword from './Pages/UpdatePassword';
 import Compaign from './Pages/Compaign';
-import EditModal from './Pages/EditModal';
+import EditModal from './Modal/EditModal';
+import UpdatePasswordModal from './Modal/UpdatePasswordModal';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/profile" element={<Profilepage />} />
         <Route path="/updatepassword" element={<UpdatePassword />} />
         <Route path="/update/:id" element={<EditModal />} />
+        <Route path="/updatepas" element={<UpdatePasswordModal />} />
 
       </Routes>
 </Router>
