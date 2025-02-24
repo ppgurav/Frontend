@@ -10,6 +10,9 @@ import Profilepage from './Pages/Profilepage';
 import Compaign from './Pages/Compaign';
 import EditModal from './Modal/EditModal';
 import UpdatePasswordModal from './Modal/UpdatePasswordModal';
+import ForgetPage from './Pages/ForgetPage';
+import ConfirmOTP from './Pages/ConfirmOTP';
+import HomePage from './Pages/HomePage';
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
         <Route path="/profile" element={<Profilepage />} />
         <Route path="/update/:id" element={<EditModal />} />
         <Route path="/updatepas" element={<UpdatePasswordModal />} />
+        <Route path="/forgetpas" element={<ForgetPage />} />
+        <Route path="/confirmOTP" element={<ConfirmOTP />} />
+        <Route path="/home" element={<HomePage />} />
 
       </Routes>
 </Router>
