@@ -3,7 +3,7 @@ import { axiosInstance } from '../utils/axiosInstance';
 import { Eye, FileText, PowerOff, Trash2 } from 'lucide-react';
 
 
-const DeviceCard = ({user}) => {
+const DeviceCard = ({user,device}) => {
     const {
         _id,deviceName,today_total_calls,overall_total_calls,webhookUrl} = user //{id:"",name:""}
     const [data, setUser] = useState([]);
@@ -23,6 +23,26 @@ const DeviceCard = ({user}) => {
                      }, []);
     
                      console.log("Device", data);
+
+// For deleting device
+                      const handleDelete = (_id) => {
+                          console.log(`Attempting to delete device with _id: ${_id}`);
+                          deleteDevice(_id);
+                      };
+                  
+                      const deleteDevice = (_id) => {
+                          axiosInstance.delete(`/user/delete-device/${_id}`)
+                              .then((response) => {
+                                  if (response.ok) {
+                                      console.log(`Device with _id: ${_id} successfully deleted.`);
+                                  } else {
+                                      console.error(`Failed to delete device with _id: ${_id}.`);
+                                  }
+                              })
+                              .catch((error) => {
+                                  console.error(`Error occurred while deleting device with _id: ${_id}`, error);
+                              });
+                      };
                             
   return (
 <>
@@ -36,9 +56,13 @@ const DeviceCard = ({user}) => {
               <td className="p-2 flex  border-gray-200 border-1 ">
               <FileText  className=''/>
 
-              <Trash2
-              className="text-red-500 cursor-pointer ml-4 "
-              size={23}  />
+              <button
+                onClick={() => handleDelete(_id)} 
+                className="delete-btn"
+                title="Delete Device"
+            >
+                <Trash2 size={24} color="#ff0000" />
+            </button>
 
              
 
