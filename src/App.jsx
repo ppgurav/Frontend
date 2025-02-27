@@ -13,6 +13,10 @@ import UpdatePasswordModal from './Modal/UpdatePasswordModal';
 import ForgetPage from './Pages/ForgetPage';
 import ConfirmOTP from './Pages/ConfirmOTP';
 import HomePage from './Pages/HomePage';
+import Device from './Pages/Device';
+import DeviceCard from './Components/DeviceCard';
+import DeviceModal from './Modal/DeviceModal';
+import UserForm from './Modal/UserForm';
 
 function App() {
   return (
@@ -33,7 +37,10 @@ function App() {
         <Route path="/forgetpas" element={<ForgetPage />} />
         <Route path="/confirmOTP" element={<ConfirmOTP />} />
         <Route path="/home" element={<HomePage />} />
-
+        <Route path="/device" element={<Device />} />
+        <Route path="/dcard" element={<DeviceCard />} />
+        <Route path="/add" element={<DeviceModal />} />
+        <Route path="/userForm" element={<UserForm />} />
       </Routes>
 </Router>
     
