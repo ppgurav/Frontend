@@ -1,7 +1,7 @@
 import React from 'react';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from 'react-router-dom';
 import Dashboard from './Pages/Dashboard';
 import ProductList from './Pages/ProductList';
 import User from './Pages/User';
@@ -17,33 +17,45 @@ import Device from './Pages/Device';
 import DeviceCard from './Components/DeviceCard';
 import DeviceModal from './Modal/DeviceModal';
 import UserForm from './Modal/UserForm';
+import Container from './Pages/Container';
+
 
 function App() {
   return (
 
-<Router>
-    <Routes>
-        <Route path="/" element={<Login />} />
-         <Route path="/signup" element={<Signup />} /> 
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/product" element={<ProductList />} />
-        <Route path="/user" element={<User />} />
-        <Route path="/compaign" element={<Compaign />} />
-        
-        <Route path="/ucard" element={<UserCard />} />
-        <Route path="/profile" element={<Profilepage />} />
-        <Route path="/update/:id" element={<EditModal />} />
-        <Route path="/updatepas" element={<UpdatePasswordModal />} />
+<>
+<BrowserRouter basename="/">
+<Routes>
+<       Route path="/" element={<Container />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/forgetpas" element={<ForgetPage />} />
         <Route path="/confirmOTP" element={<ConfirmOTP />} />
-        <Route path="/home" element={<HomePage />} />
+         <Route path="/signup" element={<Signup />} /> 
+
+
+         <Route path="/user" element={<User />} />
+        <Route path="/userForm" element={<UserForm />} />
+        <Route path="/ucard" element={<UserCard />} />
+
+
+         <Route path="/home" element={<HomePage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/product" element={<ProductList />} />
+
+
+        <Route path="/compaign" element={<Compaign />} />
+        
+        <Route path="/profile" element={<Profilepage />} />
+        <Route path="/updatepas" element={<UpdatePasswordModal />} />
+        <Route path="/update/:id" element={<EditModal />} />
+
+
         <Route path="/device" element={<Device />} />
         <Route path="/dcard" element={<DeviceCard />} />
         <Route path="/add" element={<DeviceModal />} />
-        <Route path="/userForm" element={<UserForm />} />
-      </Routes>
-</Router>
-    
+        </Routes>
+        </BrowserRouter>
+        </>
   );
 }
 
