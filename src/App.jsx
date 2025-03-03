@@ -18,6 +18,7 @@ import DeviceCard from './Components/DeviceCard';
 import DeviceModal from './Modal/DeviceModal';
 import UserForm from './Modal/UserForm';
 import Container from './Pages/Container';
+import LogPage from './Pages/LogPage';
 
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
 <>
 <BrowserRouter basename="/">
 <Routes>
-<       Route path="/" element={<Container />} />
+<       Route path="/" element={<Container />} > 
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpas" element={<ForgetPage />} />
         <Route path="/confirmOTP" element={<ConfirmOTP />} />
@@ -41,6 +42,7 @@ function App() {
          <Route path="/home" element={<HomePage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/product" element={<ProductList />} />
+        <Route path="/log" element={<LogPage />} />
 
 
         <Route path="/compaign" element={<Compaign />} />
@@ -52,7 +54,9 @@ function App() {
 
         <Route path="/device" element={<Device />} />
         <Route path="/dcard" element={<DeviceCard />} />
-        <Route path="/add" element={<DeviceModal />} />
+
+
+        </Route>
         </Routes>
         </BrowserRouter>
         </>
