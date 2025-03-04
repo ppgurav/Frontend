@@ -21,13 +21,14 @@ import Container from './Pages/Container';
 import LogPage from './Pages/LogPage';
 
 
+
 function App() {
   return (
 
 <>
 <BrowserRouter basename="/">
 <Routes>
-<       Route path="/" element={<Container />} > 
+<Route path="/" element={<Container />} > 
         <Route path="/login" element={<Login />} />
         <Route path="/forgetpas" element={<ForgetPage />} />
         <Route path="/confirmOTP" element={<ConfirmOTP />} />
@@ -50,16 +51,18 @@ function App() {
         <Route path="/profile" element={<Profilepage />} />
         <Route path="/updatepas" element={<UpdatePasswordModal />} />
         <Route path="/update/:id" element={<EditModal />} />
+        <Route path="/update/:id" element={<DeviceModal />} />
+
 
 
         <Route path="/device" element={<Device />} />
         <Route path="/dcard" element={<DeviceCard />} />
 
 
-        </Route>
-        </Routes>
-        </BrowserRouter>
-        </>
+</Route>
+</Routes>
+</BrowserRouter>
+</>
   );
 }
 
