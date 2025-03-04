@@ -18,6 +18,7 @@ const CallLogs = () => {
         } else {
           setError('Call logs data is missing.');
         }
+        
       })
   }, [currentPage]); 
   const formatDate = (date) => {
@@ -53,6 +54,14 @@ const CallLogs = () => {
               setSelectedOption(event.target.value);
             };
 
+
+            // searching 
+
+  const [search, setSearchTerm] = useState('');
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
   return (
     <div className='p-35 text-center font-stretch-90% font-bold'>
       <div className='w-full px-9 flex justify-between my-3' >
@@ -72,14 +81,13 @@ const CallLogs = () => {
         <option value="option2">2</option>
         <option value="option3">3</option>
       </select></h1>
-
       <input
         type="text"
-        // value={searchTerm}
-        // onChange={handleSearch}
+        onChange={handleSearchChange}
         placeholder="Search by number,type or device name...."
         className=" p-2 border rounded-md mr-2 w-95 text-sm border-cyan-600"
-      />
+     />  
+
       </div>
 
       <div class="p-2 ">
@@ -96,7 +104,12 @@ const CallLogs = () => {
               </tr>
             </thead>
         <tbody>
-            {callLogs.map((log) => (
+            {callLogs.filter((log)=>{
+              return search.toLowerCase() === '' ? log 
+              : log.number.toLowerCase().includes(search) ||
+               log.deviceName.toLowerCase().includes(search);
+            })
+            .map((log) => (
               <tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200" key={log._id}>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{log.number}</td>
                 <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{formatDate(log.callDate)}</td>
