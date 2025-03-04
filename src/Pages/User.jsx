@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { axiosInstance } from '../utils/axiosInstance';
-import Navigationbar from '../Components/Navigationbar';
 import UserCard from '../Components/UserCard';
 import UserForm from '../Modal/UserForm';
 
@@ -32,14 +31,20 @@ const [data, setUser] = useState([]);
                 setIsModalOpen(true);
    };
 
+  const [search, setSearchTerm] = useState('');
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+
   return (
     <>
-    <Navigationbar />
+
     <div className="container mx-auto p-50">
           
     <div className="overflow-x-auto p-3">
     <button  
-        className="px-6 py-2 bg-blue-700 ml-158 text-white rounded-md hover:bg-blue-600 mb-4"
+        className="px-6 py-2 bg-blue-700 ml-180 text-white rounded-md hover:bg-blue-600 mb-4 "
         onClick={() => handleEdit()} >
         Add User
       </button>
@@ -49,6 +54,12 @@ const [data, setUser] = useState([]);
                 user={selectedUser}
                />
 
+<input
+       type="text"
+       onChange={handleSearchChange}
+       placeholder="Search by number,type or device name...."
+       className=" p-2 border rounded-md mr-2 w-95 text-sm border-cyan-600 ml-120"
+    />
       <table className="w-full border-4 border-red-500 shadow-md rounded-lg overflow-hidden ">
         <thead className="bg-gray-100 ">
           <tr>
@@ -61,7 +72,12 @@ const [data, setUser] = useState([]);
         </thead>
         <tbody>
           
-          {data.map((user, index) => (
+          {data.filter((user)=>{
+            return search.toLowerCase() === '' ? user
+            : user.name.toLowerCase().includes(search) ||
+            user.email.toLowerCase().includes(search);
+          })
+          .map((user, index) => (
             <UserCard key={user?._id} user={user} />
             
           ))}
@@ -79,3 +95,6 @@ const [data, setUser] = useState([]);
   )
 }
 export default  User;
+
+
+
